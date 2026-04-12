@@ -18,173 +18,286 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 40px 24px;
+      padding: 0 24px 48px;
       text-align: center;
+      overflow-x: hidden;
     }
 
-    .hero-emoji { font-size: 72px; display: inline-block; animation: bounce 0.7s ease-in-out infinite alternate; }
-
-    @keyframes bounce {
-      0%   { transform: translateY(0); }
-      100% { transform: translateY(-12px); }
+    /* ── Slide background (top glow only) ── */
+    #slideBg {
+      position: fixed;
+      top: 0; left: 0; right: 0; height: 55vh;
+      z-index: -1;
+      pointer-events: none;
+      transition: background 0.5s ease;
     }
 
-    .hero-tagline {
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      margin: 20px 0 6px;
-      min-height: 1.4em;
-      transition: opacity 0.3s;
+    /* ── Carousel ── */
+    #carousel {
+      width: 100%;
+      max-width: 440px;
+      padding: 48px 0 28px;
     }
 
-    .hero-sub {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 0;
-      min-height: 1.5em;
-      transition: opacity 0.3s;
+    /* ── Phone frame ── */
+    .phone-frame {
+      width: 200px;
+      height: 320px;
+      background: #111122;
+      border-radius: 28px;
+      border: 1.5px solid rgba(255,255,255,0.08);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+      overflow: hidden;
+      margin: 0 auto;
     }
 
-    .spinner {
-      width: 24px;
-      height: 24px;
-      border: 2.5px solid #2a2a2a;
-      border-top-color: #7c3aed;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 20px auto 0;
+    #phoneInner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 14px;
+      transition: opacity 0.25s;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    /* ── Slide text ── */
+    #slideText {
+      margin-top: 28px;
+      transition: opacity 0.3s, transform 0.3s;
     }
 
-    h1 {
-      font-size: 36px;
-      font-weight: 700;
+    #slideTitle {
+      font-size: 28px;
+      font-weight: 800;
       letter-spacing: -0.5px;
-      margin: 24px 0 10px;
+      line-height: 1.15;
+      white-space: pre-line;
     }
 
-    .tagline {
-      color: #888;
-      font-size: 16px;
+    #slideBody {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
       line-height: 1.6;
-      max-width: 320px;
-      margin: 0 auto 12px;
+      max-width: 280px;
+      margin: 10px auto 0;
     }
 
-    .cute {
-      color: #7c3aed;
-      font-size: 15px;
-      font-weight: 500;
-      margin-bottom: 40px;
-    }
-
-    .features {
+    /* ── Dots ── */
+    #dots {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
       justify-content: center;
-      max-width: 420px;
-      margin-bottom: 48px;
+      gap: 8px;
+      margin-top: 22px;
     }
 
-    .chip {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 20px;
-      padding: 8px 16px;
+    .dot {
+      height: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    /* ════════════════════════════════════════
+       SLIDE 1 — Streak
+    ════════════════════════════════════════ */
+    .streak-counter {
+      font-size: 64px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      color: #fff;
+    }
+    .streak-lbl {
       font-size: 13px;
-      color: #aaa;
-    }
-
-    .stores {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: center;
+      color: rgba(255,255,255,0.45);
+      font-weight: 500;
       margin-bottom: 16px;
     }
-
-    .btn {
+    .mini-habit {
       display: flex;
       align-items: center;
-      gap: 10px;
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      color: #fff;
-      text-decoration: none;
-      padding: 14px 24px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 500;
+      gap: 8px;
+      margin-bottom: 7px;
+      width: 100%;
+    }
+    .mini-cb {
+      width: 20px; height: 20px;
+      border-radius: 5px;
+      background: #1F1F35;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 11px; font-weight: bold; color: #fff;
+      transition: background 0.4s;
+    }
+    .mini-cb.done { background: #22C55E; }
+    .mini-hl {
+      font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.4s;
+      text-align: left;
+    }
+    .mini-hl.done { color: #fff; }
+
+    /* ════════════════════════════════════════
+       SLIDE 2 — Tap Cycle
+    ════════════════════════════════════════ */
+    .tap-hint {
+      font-size: 11px; color: #6B7280;
+      margin-bottom: 12px;
+    }
+    .hcard {
+      width: 100%;
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 8px;
+      background: #1A1A2E;
+      border: 1px solid transparent;
+      transition: border-color 0.25s;
+    }
+    .hicon {
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: bold;
+      flex-shrink: 0;
+      transition: background 0.25s, color 0.25s;
+    }
+    .hcard-lbl {
+      flex: 1; font-size: 12px; font-weight: 500; color: #fff; text-align: left;
+    }
+    .hstatus {
+      font-size: 10px; font-weight: 600;
+      transition: color 0.25s;
+    }
+
+    /* ════════════════════════════════════════
+       SLIDE 3 — Heatmap
+    ════════════════════════════════════════ */
+    .hm-title { font-size: 16px; font-weight: 700; }
+    .hm-pct { font-size: 12px; font-weight: 600; color: #7C3AED; margin-bottom: 12px; }
+    .hm-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .hm-cell {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      background: #1F1F35;
+      transition: background 0.25s, box-shadow 0.25s;
+    }
+    .hm-cell.done {
+      background: #22C55E;
+      box-shadow: 0 0 4px rgba(34,197,94,0.4);
+    }
+    .stat-badges { display: flex; gap: 8px; }
+    .stat-badge {
+      background: #1A1A2E; border-radius: 8px;
+      padding: 5px 10px; font-size: 11px; font-weight: 600;
+    }
+
+    /* ════════════════════════════════════════
+       SLIDE 4 — Leaderboard
+    ════════════════════════════════════════ */
+    .lb-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+    .lb-row {
+      width: 100%;
+      border-radius: 10px;
+      padding: 7px 10px;
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 7px;
+      background: #1A1A2E;
+      border: 1px solid transparent;
+      opacity: 0;
+      transform: translateX(16px);
+      transition: opacity 0.3s, transform 0.3s, background 0.3s, border-color 0.3s;
+    }
+    .lb-row.me { background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.4); }
+    .lb-row.show { opacity: 1; transform: translateX(0); }
+    .lb-medal { width: 24px; font-size: 13px; text-align: center; }
+    .lb-name { flex: 1; font-size: 12px; font-weight: 600; text-align: left; }
+    .lb-name.me { color: #7C3AED; }
+    .lb-pct { font-size: 12px; font-weight: 700; color: #22C55E; }
+    .lb-str { font-size: 10px; color: #6B7280; margin-left: 4px; }
+
+    /* ════════════════════════════════════════
+       Below carousel
+    ════════════════════════════════════════ */
+    h1 {
+      font-size: 36px; font-weight: 700;
+      letter-spacing: -0.5px;
+      margin: 8px 0 10px;
+    }
+    .tagline {
+      color: #888; font-size: 16px; line-height: 1.6;
+      max-width: 320px; margin: 0 auto 12px;
+    }
+    .cute {
+      color: #7c3aed; font-size: 15px; font-weight: 500; margin-bottom: 32px;
+    }
+    .features {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      justify-content: center; max-width: 420px; margin-bottom: 40px;
+    }
+    .chip {
+      background: #1a1a1a; border: 1px solid #2a2a2a;
+      border-radius: 20px; padding: 8px 16px;
+      font-size: 13px; color: #aaa;
+    }
+    .stores {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 16px;
+    }
+    .btn {
+      display: flex; align-items: center; gap: 10px;
+      background: #1a1a1a; border: 1px solid #2a2a2a;
+      color: #fff; text-decoration: none;
+      padding: 14px 24px; border-radius: 14px;
+      font-size: 15px; font-weight: 500;
       transition: border-color 0.2s, background 0.2s;
-      cursor: default;
-      opacity: 0.6;
+      cursor: default; opacity: 0.6;
     }
-
-    .btn.active {
-      cursor: pointer;
-      opacity: 1;
-      border-color: #7c3aed;
-    }
-
-    .btn.active:hover {
-      background: #7c3aed22;
-      border-color: #a78bfa;
-    }
-
-    .install-note {
-      font-size: 12px;
-      color: #555;
-      max-width: 340px;
-      margin: 0 auto 0;
-      line-height: 1.6;
-    }
-
-    .install-note a {
-      color: #7c3aed;
-      text-decoration: none;
-    }
-
+    .btn.active { cursor: pointer; opacity: 1; border-color: #7c3aed; }
+    .btn.active:hover { background: #7c3aed22; border-color: #a78bfa; }
     .btn .icon { font-size: 22px; }
     .btn .label { text-align: left; }
     .btn .label span { display: block; font-size: 11px; color: #666; font-weight: 400; }
-
     .soon-badge {
-      display: inline-block;
-      background: #7c3aed22;
-      color: #a78bfa;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-top: 4px;
+      display: inline-block; background: #7c3aed22; color: #a78bfa;
+      font-size: 11px; font-weight: 600; padding: 3px 8px;
+      border-radius: 6px; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 4px;
     }
-
-    footer {
-      margin-top: 48px;
-      font-size: 12px;
-      color: #444;
+    .install-note {
+      font-size: 12px; color: #555; max-width: 340px;
+      margin: 0 auto; line-height: 1.6;
     }
-
+    .install-note a { color: #7c3aed; text-decoration: none; }
+    footer { margin-top: 48px; font-size: 12px; color: #444; }
     footer a { color: #555; text-decoration: none; }
     footer a:hover { color: #888; }
   </style>
 </head>
 <body>
 
-  <span class="hero-emoji" id="heroEmoji">🐶</span>
-  <div class="hero-tagline" id="heroTagline">Fetching your habits…</div>
-  <div class="hero-sub" id="heroSub">Good boy is on it.</div>
-  <div class="spinner"></div>
+  <div id="slideBg"></div>
 
-  <h1 style="margin-top:32px;">Habits</h1>
+  <div id="carousel">
+    <div class="phone-frame">
+      <div id="phoneInner"></div>
+    </div>
+    <div id="slideText">
+      <h2 id="slideTitle"></h2>
+      <p id="slideBody"></p>
+    </div>
+    <div id="dots"></div>
+  </div>
+
+  <h1>Habits</h1>
   <p class="tagline">Track what matters. Build streaks, join squads, and hold each other accountable — one day at a time.</p>
   <p class="cute">Now available on Android. iOS coming soon. 🦴</p>
 
@@ -197,11 +310,11 @@
   </div>
 
   <div class="stores">
-    <a class="btn active" href="habits.apk" download="habits.apk" title="Download APK for Android">
+    <a class="btn active" href="habits.apk" download="habits.apk">
       <span class="icon">🤖</span>
       <span class="label">
         Download for Android
-        <span style="display:block;font-size:11px;color:#a78bfa;font-weight:400;">Direct APK · v1.0.0</span>
+        <span style="color:#a78bfa;font-weight:400;">Direct APK · v1.0.0</span>
       </span>
     </a>
     <a class="btn" title="Coming soon on iOS">
@@ -225,34 +338,276 @@
     Built with ☕ and good intentions
   </footer>
 
-  <script>
-    const messages = [
-      { emoji: '🐶', title: 'Fetching your habits…',      sub: 'Good boy is on it.' },
-      { emoji: '🐾', title: 'Sniffing out your data…',    sub: 'Won\'t be long, I promise.' },
-      { emoji: '🐕', title: 'Chasing down the server…',   sub: 'Almost caught it!' },
-      { emoji: '🦴', title: 'Digging up your progress…',  sub: 'Found something good.' },
+<script>
+  const slides = [
+    {
+      accent: '#F97316',
+      bg: 'linear-gradient(to bottom, #2a0830 0%, transparent 100%)',
+      title: "Don't break\nthe chain.",
+      body: "One tap a day. Build a streak so satisfying you'll hate to miss it.",
+      init: initStreak,
+    },
+    {
+      accent: '#22C55E',
+      bg: 'linear-gradient(to bottom, #0a2a10 0%, transparent 100%)',
+      title: "Tap once.\nChange everything.",
+      body: "Done, partial, or missed — cycle through in a single tap.",
+      init: initTapCycle,
+    },
+    {
+      accent: '#3B82F6',
+      bg: 'linear-gradient(to bottom, #081828 0%, transparent 100%)',
+      title: "See your\nwhole month.",
+      body: "The Board shows every day at a glance. No hiding from the truth.",
+      init: initHeatmap,
+    },
+    {
+      accent: '#F59E0B',
+      bg: 'linear-gradient(to bottom, #281800 0%, transparent 100%)',
+      title: "Your squad\nis watching.",
+      body: "Join a squad, climb the leaderboard. Accountability hits different when it's personal.",
+      init: initLeaderboard,
+    },
+  ];
+
+  let currentSlide = 0;
+  let cleanups = [];
+  let autoTimer = null;
+
+  // Build dots
+  const dotsEl = document.getElementById('dots');
+  slides.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.style.width = i === 0 ? '24px' : '6px';
+    d.style.background = i === 0 ? slides[0].accent : 'rgba(255,255,255,0.2)';
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(idx) {
+    // Stop previous animations
+    cleanups.forEach(fn => fn());
+    cleanups = [];
+    clearTimeout(autoTimer);
+
+    currentSlide = idx;
+    const slide = slides[idx];
+
+    // Background glow
+    document.getElementById('slideBg').style.background = slide.bg;
+
+    // Update dots
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => {
+      d.style.width = i === idx ? '24px' : '6px';
+      d.style.background = i === idx ? slide.accent : 'rgba(255,255,255,0.2)';
+    });
+
+    // Fade out phone + text
+    const inner = document.getElementById('phoneInner');
+    const textEl = document.getElementById('slideText');
+    inner.style.opacity = '0';
+    textEl.style.opacity = '0';
+    textEl.style.transform = 'translateY(8px)';
+
+    setTimeout(() => {
+      // Swap phone content
+      inner.innerHTML = '';
+      slide.init(inner, cleanups);
+      inner.style.opacity = '1';
+
+      // Swap text
+      const titleEl = document.getElementById('slideTitle');
+      titleEl.textContent = slide.title;
+      titleEl.style.textShadow = `0 0 24px ${slide.accent}55`;
+      document.getElementById('slideBody').textContent = slide.body;
+      textEl.style.opacity = '1';
+      textEl.style.transform = 'translateY(0)';
+    }, 220);
+
+    // Auto advance
+    autoTimer = setTimeout(() => goTo((idx + 1) % slides.length), 4800);
+  }
+
+  // ════════════════════════════════════════
+  // SLIDE 1 — Streak counter ticking up
+  // ════════════════════════════════════════
+  function initStreak(el, cleanup) {
+    const TARGET = 21;
+    el.innerHTML = `
+      <div style="font-size:48px;margin-bottom:4px;">🔥</div>
+      <div class="streak-counter" id="sc">0</div>
+      <div class="streak-lbl">day streak</div>
+      <div style="width:100%;padding:0 2px;margin-top:4px;">
+        ${['Drink water','Read 20 min','Exercise'].map((h,i)=>`
+          <div class="mini-habit">
+            <div class="mini-cb" id="cb${i}"></div>
+            <div class="mini-hl" id="hl${i}">${h}</div>
+          </div>`).join('')}
+      </div>`;
+
+    let raf, start = null, dir = 1;
+    const DURATION = 2200, PAUSE = 900;
+    let phase = 'count'; // count | pause
+
+    function tick(ts) {
+      if (!start) start = ts;
+      const elapsed = ts - start;
+
+      if (phase === 'count') {
+        const t = Math.min(elapsed / DURATION, 1);
+        const ease = 1 - Math.pow(1 - t, 3);
+        const val = Math.round(ease * TARGET);
+        const scEl = document.getElementById('sc');
+        if (scEl) {
+          scEl.textContent = val;
+          scEl.style.textShadow = `0 0 30px rgba(249,115,22,${0.3 + 0.7 * ease})`;
+        }
+        [0,1,2].forEach(i => {
+          const done = val >= [1,8,15][i];
+          const cb = document.getElementById('cb'+i);
+          const hl = document.getElementById('hl'+i);
+          if (cb) { cb.classList.toggle('done', done); cb.textContent = done ? '✓' : ''; }
+          if (hl) hl.classList.toggle('done', done);
+        });
+        if (t >= 1) { phase = 'pause'; start = ts; }
+      } else {
+        if (elapsed >= PAUSE) { phase = 'count'; start = ts; }
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    cleanup.push(() => cancelAnimationFrame(raf));
+  }
+
+  // ════════════════════════════════════════
+  // SLIDE 2 — Tap cycle
+  // ════════════════════════════════════════
+  function initTapCycle(el, cleanup) {
+    const states = [
+      { c: '#3B3B4F', icon: '○', lbl: '',        bg: 'rgba(59,59,79,0.15)'   },
+      { c: '#22C55E', icon: '✓', lbl: 'Done',    bg: 'rgba(34,197,94,0.15)'  },
+      { c: '#F59E0B', icon: '−', lbl: 'Partial', bg: 'rgba(245,158,11,0.15)' },
+      { c: '#F43F5E', icon: '✕', lbl: 'Missed',  bg: 'rgba(244,63,94,0.15)'  },
+    ];
+    const habits = ['Morning run', 'Meditate', 'No sugar'];
+
+    el.innerHTML = `
+      <div class="tap-hint">Tap to cycle</div>
+      ${habits.map((h,i) => `
+        <div class="hcard" id="hc${i}">
+          <div class="hicon" id="hi${i}" style="background:rgba(59,59,79,0.15);color:#3B3B4F;">○</div>
+          <div class="hcard-lbl">${h}</div>
+          ${i===1?`<div class="hstatus" id="hs"></div>`:''}
+        </div>`).join('')}`;
+
+    let si = 0;
+    const timer = setInterval(() => {
+      si = (si + 1) % states.length;
+      const s = states[si];
+      const card = document.getElementById('hc1');
+      const icon = document.getElementById('hi1');
+      const status = document.getElementById('hs');
+      if (card) card.style.borderColor = si ? s.c + '88' : 'transparent';
+      if (icon) { icon.style.background = s.bg; icon.style.color = s.c; icon.textContent = s.icon; }
+      if (status) { status.style.color = s.c; status.textContent = s.lbl; }
+    }, 1100);
+    cleanup.push(() => clearInterval(timer));
+  }
+
+  // ════════════════════════════════════════
+  // SLIDE 3 — Heatmap filling
+  // ════════════════════════════════════════
+  function initHeatmap(el, cleanup) {
+    const TOTAL = 28, DURATION = 2400;
+    el.innerHTML = `
+      <div class="hm-title">April</div>
+      <div class="hm-pct" id="hpct">0% consistency</div>
+      <div class="hm-grid">
+        ${Array.from({length:TOTAL},(_,i)=>`<div class="hm-cell" id="hm${i}"></div>`).join('')}
+      </div>
+      <div class="stat-badges">
+        <div class="stat-badge">🔥 <span id="hstr">0</span> streak</div>
+        <div class="stat-badge">✅ <span id="hdone">0</span> done</div>
+      </div>`;
+
+    let raf, start = null, dir = 1;
+
+    function tick(ts) {
+      if (!start) start = ts;
+      const t = Math.min((ts - start) / DURATION, 1);
+      const val = dir === 1 ? t : 1 - t;
+      const filled = Math.round(val * TOTAL);
+
+      const pctEl = document.getElementById('hpct');
+      const strEl = document.getElementById('hstr');
+      const doneEl = document.getElementById('hdone');
+      if (pctEl) pctEl.textContent = Math.round(val*100) + '% consistency';
+      if (strEl) strEl.textContent = Math.round(val*18);
+      if (doneEl) doneEl.textContent = filled;
+      for (let i=0; i<TOTAL; i++) {
+        const cell = document.getElementById('hm'+i);
+        if (cell) cell.classList.toggle('done', i < filled);
+      }
+
+      if (t >= 1) { dir *= -1; start = ts; }
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    cleanup.push(() => cancelAnimationFrame(raf));
+  }
+
+  // ════════════════════════════════════════
+  // SLIDE 4 — Leaderboard sliding in
+  // ════════════════════════════════════════
+  function initLeaderboard(el, cleanup) {
+    const entries = [
+      { medal:'🥇', name:'alex',  pct:'94%', str:'12', me:false },
+      { medal:'🥈', name:'you',   pct:'87%', str:'9',  me:true  },
+      { medal:'🥉', name:'priya', pct:'76%', str:'7',  me:false },
+      { medal:'#4', name:'marco', pct:'61%', str:'4',  me:false },
     ];
 
-    const emoji    = document.getElementById('heroEmoji');
-    const tagline  = document.getElementById('heroTagline');
-    const sub      = document.getElementById('heroSub');
+    el.innerHTML = `
+      <div class="lb-title">🏆 Squad</div>
+      ${entries.map((e,i)=>`
+        <div class="lb-row${e.me?' me':''}" id="lr${i}">
+          <div class="lb-medal">${e.medal}</div>
+          <div class="lb-name${e.me?' me':''}"> ${e.name}</div>
+          <div class="lb-pct">${e.pct}</div>
+          <div class="lb-str">🔥 ${e.str}</div>
+        </div>`).join('')}`;
 
-    let idx = 0;
+    let stopped = false, count = 0, t;
 
-    function next() {
-      idx = (idx + 1) % messages.length;
-      const m = messages[idx];
-      // fade out
-      emoji.style.opacity = tagline.style.opacity = sub.style.opacity = '0';
-      setTimeout(() => {
-        emoji.textContent   = m.emoji;
-        tagline.textContent = m.title;
-        sub.textContent     = m.sub;
-        emoji.style.opacity = tagline.style.opacity = sub.style.opacity = '1';
-      }, 300);
+    function showNext() {
+      if (stopped) return;
+      if (count < entries.length) {
+        const row = document.getElementById('lr'+count);
+        if (row) row.classList.add('show');
+        count++;
+        t = setTimeout(showNext, 320);
+      } else {
+        t = setTimeout(reset, 900);
+      }
     }
 
-    setInterval(next, 2500);
-  </script>
+    function reset() {
+      if (stopped) return;
+      entries.forEach((_,i) => {
+        const row = document.getElementById('lr'+i);
+        if (row) row.classList.remove('show');
+      });
+      count = 0;
+      t = setTimeout(showNext, 400);
+    }
+
+    t = setTimeout(showNext, 150);
+    cleanup.push(() => { stopped = true; clearTimeout(t); });
+  }
+
+  // ── Kick off ──
+  goTo(0);
+</script>
 </body>
 </html>
